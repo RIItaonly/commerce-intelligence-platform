@@ -1,0 +1,32 @@
+# 原始数据与本地数据仓库（体积大 / 可重新生成）
+data/raw/*.csv
+data/warehouse/
+data/interim/
+
+# 环境与密钥
+.env
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.pytest_cache/
+
+# 模型与中间产物
+models/artifacts/*.joblib
+models/artifacts/*.json
+# 行级大文件（约 15MB，可由 `python -m src.pipeline churn segmentation` 重新生成）
+models/artifacts/churn_scores.csv
+models/artifacts/segmentation_labels.csv
+
+# outputs 下的临时分析结果不入库，但看板截图需要随 README 展示
+outputs/*
+!outputs/screenshots/
+
+# 编辑器
+.vscode/
+.idea/
+.DS_Store

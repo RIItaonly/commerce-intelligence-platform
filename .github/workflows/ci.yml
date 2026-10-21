@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04  # Python 3.8 在 setup-python 的 ubuntu-24.04 上不可用
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.8"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # 数据文件不进仓库：依赖真实数据/模型产物的测试会自动跳过，
+      # 纯逻辑测试（统计推断、特征工程、模型评估、合成数据契约）全量运行。
+      - name: Run tests
+        run: python -m pytest tests -q -p no:cacheprovider
+
+      # 流水线冒烟：验证入口可导入、步骤编排完整，不在 CI 跑全量数据。
+      - name: Pipeline smoke
+        run: python -c "from src.pipeline import STEPS; print('pipeline steps:', STEPS)"
+
+      - name: API smoke (import)
+        run: python -c "from src.api.app import app; print('routes:', sorted({r.path for r in app.routes}))"

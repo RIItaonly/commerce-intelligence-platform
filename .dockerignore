@@ -1,0 +1,14 @@
+# 数据与模型产物通过挂载卷注入，不进入镜像
+data/
+models/
+outputs/
+notebooks/
+
+# 本地环境与版本控制
+.venv/
+.git/
+.github/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/

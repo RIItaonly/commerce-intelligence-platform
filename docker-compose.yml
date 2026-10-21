@@ -1,0 +1,51 @@
+version: "3.9"
+
+# 本地默认栈（SQLite）：api + dashboard 直接可跑，数据/模型产物通过挂载卷注入。
+# PostgreSQL 为目标生产栈：需要时 `docker compose --profile postgres up` 启动，
+# 并通过 DATABASE_URL 切换（src/config.py 自动读取环境变量）。
+
+services:
+  api:
+    build: .
+    container_name: commerce_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./outputs:/app/outputs
+      - ./reports:/app/reports
+
+  dashboard:
+    build: .
+    container_name: commerce_dashboard
+    command: streamlit run dashboard/app.py --server.address 0.0.0.0 --server.port 8501
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./outputs:/app/outputs
+      - ./reports:/app/reports
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: commerce_pg
+    profiles: ["postgres"]
+    environment:
+      POSTGRES_USER: commerce
+      POSTGRES_PASSWORD: commerce
+      POSTGRES_DB: commerce
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./sql/staging/00_schema.sql:/docker-entrypoint-initdb.d/00_schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U commerce -d commerce"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pg_data:

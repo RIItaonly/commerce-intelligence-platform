@@ -1,0 +1,32 @@
+# 运行环境：Python 3.8+
+# 本地已安装（Anaconda）：pandas / numpy / scikit-learn / statsmodels / lightgbm / pytest
+# 通过项目内 .venv 安装：streamlit / plotly / fastapi / uvicorn
+
+# --- 数据处理 ---
+pandas>=1.2,<2.0
+numpy>=1.20,<1.24
+
+# --- 统计与机器学习 ---
+scipy>=1.6
+scikit-learn>=0.24,<1.4
+statsmodels>=0.12
+lightgbm>=3.3
+joblib>=1.0
+
+# --- 可视化与应用 ---
+plotly==5.15.0
+streamlit==1.28.2
+
+# --- API 服务 ---
+fastapi==0.103.2
+uvicorn==0.23.2
+
+# --- 测试 ---
+pytest>=6.2
+httpx==0.27.2  # FastAPI TestClient 依赖（>=0.28 与 starlette 不兼容）
+
+# --- 工具 ---
+requests>=2.25
+
+# --- 可选：PostgreSQL 目标栈（Docker 环境）---
+# psycopg2-binary>=2.9
