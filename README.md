@@ -175,7 +175,7 @@ Dockerfile + docker-compose、GitHub Actions CI。
 - 流失标签与特征必须按时间构建（过去 N 天特征 → 未来 M 天是否流失），严禁把未来信息放进特征。
 - 时间范围与不完整月份限制已知，模型结果不作为可靠的长期业务预测。
 
-## 7. 参考项目（学习起点，非直接搬运）
+## 7. 参考项目
 
 - [nishantsharma-sketch/olist-ecommerce-analysis](https://github.com/nishantsharma-sketch/olist-ecommerce-analysis)：清洗、关系建模、SQL、Power BI
 - [whizey/Olist_ETL](https://github.com/whizey/Olist_ETL)：ETL / Spark / PostgreSQL / 商家分群架构
